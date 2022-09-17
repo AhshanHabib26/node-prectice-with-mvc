@@ -28,7 +28,7 @@ exports.updateByIdProductService = async (id, data) => {
   //   const result = await product.set(data).save();
   //   return result;
 
-/* 
+  /* 
  Increment Product Price 
 */
 
@@ -42,4 +42,25 @@ exports.updateByIdProductService = async (id, data) => {
   //   return product;
 };
 
+exports.bulkUpdateProductService = async (data) => {
+  // 1st Way Without Send Data Object
+  const result = await Product.updateMany({ _id: data.ids }, data, {
+    runValidators: true,
+  });
+  return result;
 
+  /*  ******Second Way With Send Data Object****** */
+
+  //   const result = await Product.updateMany({ _id: data.ids }, data.data, {
+  //     runValidators: true,
+  //   });
+  // return result;
+
+  // // Bulk Update With Single ID And Single Product Update
+  //   const products = [];
+  //   data.ids.forEach((product) => {
+  //     products.push(Product.updateOne({ _id: product.id }, product.data));
+  //   });
+  //   const result = await Promise.all(products);
+  //   return result;
+};
