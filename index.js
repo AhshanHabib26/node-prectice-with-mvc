@@ -13,7 +13,7 @@ app.use(cors());
 // Database Connect
 
 mongoose.connect(process.env.DATABASE).then(() => {
-  console.log("Database Connect Successfully".green.bold);
+  console.log("Database Connect Successfully" .bgYellow.bold);
 });
 
 // Primary Route
@@ -26,5 +26,5 @@ app.get("/", (req, res) => {
 
 // Server Connect
 app.listen(port, () => {
-  console.log(`Server is Running on ${port}`.red.bold);
+  console.log(`Server is Running on ${port}`.bgRed.bold);
 });
