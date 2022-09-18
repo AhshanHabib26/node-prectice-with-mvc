@@ -8,11 +8,40 @@ const {
 } = require("../services/productServices");
 
 exports.getProduct = async (req, res, next) => {
-  const result = await getProductService();
-  res.status(200).json({
-    status: "Success",
-    data: result,
-  });
+  try {
+    const productFilter = { ...req.query };
+    const excludesField = ["sort", "page", "limit"];
+    excludesField.forEach((field) => delete productFilter[field]);
+
+    const queries = {};
+
+    if (req.query.sort) {
+      const bySort = req.query.sort.split(",").join(" ");
+      queries.bySort = bySort;
+    }
+
+    if (req.query.fields) {
+      const byFields = req.query.fields.split(",").join(" ");
+      queries.byFields = byFields;
+      console.log(byFields);
+    }
+    if (req.query.limit) {
+      const byLimits = req.query.limit;
+      queries.byLimits = byLimits;
+    }
+
+    const result = await getProductService(productFilter, queries);
+    res.status(200).json({
+      status: "Success",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "Failed",
+      message: "Product Doesn't Get",
+      error: error.message,
+    });
+  }
 };
 
 exports.createProduct = async (req, res, next) => {
